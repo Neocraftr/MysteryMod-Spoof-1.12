@@ -1,0 +1,53 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
+        classpath "de.undercouch:gradle-download-task:4.1.1"
+    }
+}
+apply plugin: "net.minecraftforge.gradle.forge"
+apply plugin: "de.undercouch.download"
+
+version = "1.0"
+group = "de.neocraftr.mmspoof"
+archivesBaseName = "MysteryModSpoof"
+
+minecraft {
+    version = "1.12.2-14.23.0.2512"
+    runDir = "run"
+
+    mappings = "snapshot_20171003"
+}
+
+dependencies {
+    compile files("${rootDir.getAbsolutePath()}/libs/lm_api_mc1.12.2.jar")
+}
+
+task updateLabymodApi() {
+    final out = file("${rootDir.getAbsolutePath()}/libs/lm_api_mc1.12.2.jar")
+    outputs.file(out)
+    outputs.upToDateWhen {false}
+
+    doLast {
+        download {
+            src "http://dl.labymod.net/latest/api/files/lm_api_mc1.12.2.jar"
+            dest out
+            onlyIfModified true
+        }
+    }
+}
+
+reobf {
+    jar {
+        useNotchSrg()
+    }
+}
+
+compileJava {
+    dependsOn updateLabymodApi
+    sourceCompatibility = "1.8"
+    targetCompatibility = "1.8"
+}

@@ -1,0 +1,9 @@
+{
+  "uuid": "%uuid%",
+  "name": "MysteryModSpoof",
+  "description" : "Pretends to the Server that you are using MysteryMod",
+  "author": "Neocraftr",
+  "vesion": 1,
+  "category": 2,
+  "mainClass": "de.neocraftr.mmspoof.MysteryModSpoof"
+}
